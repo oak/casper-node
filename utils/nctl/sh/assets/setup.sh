@@ -69,7 +69,7 @@ function _set_nodes()
     do
         PATH_TO_CFG=$(get_path_to_node "$IDX")/config/1_0_0
         PATH_TO_FILE="$PATH_TO_CFG"/config.toml
-
+    
         cp "$PATH_TO_CONFIG_TOML" "$PATH_TO_CFG"
         cp "$(get_path_to_net)"/chainspec/* "$PATH_TO_CFG"
 
@@ -86,12 +86,10 @@ function _set_nodes()
             "cfg['rest_server']['address']='0.0.0.0:$(get_node_port_rest "$IDX")';"
             "cfg['rpc_server']['address']='0.0.0.0:$(get_node_port_rpc "$IDX")';"
             "cfg['event_stream_server']['address']='0.0.0.0:$(get_node_port_sse "$IDX")';"
-            "toml.dump(cfg, open('$PATH_TO_FILE', 'w'));"
         )
 
         if [ ! -z "$SPECULATIVE_EXEC_ADDR" ]; then
             SCRIPT+=(
-                "cfg['speculative_exec_server']['enable_server']='true';"
                 "cfg['speculative_exec_server']['address']='0.0.0.0:$(get_node_port_speculative_exec "$IDX")';"
             )
         fi
